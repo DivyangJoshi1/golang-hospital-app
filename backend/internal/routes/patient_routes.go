@@ -10,6 +10,7 @@ func PatientRoutes(r *gin.Engine) {
     api := r.Group("/api/patients")
 
     // ✅ Shared access: any logged-in user (doctor or receptionist)
+    api.GET("", middleware.AuthMiddleware(""), controllers.GetAllPatients)
     api.GET("/", middleware.AuthMiddleware(""), controllers.GetAllPatients)
     api.GET("/:id", middleware.AuthMiddleware(""), controllers.GetPatientByID)
 
