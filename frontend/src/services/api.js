@@ -1,31 +1,44 @@
 // src/services/api.js
-const BASE_URL = import.meta.env.VITE_API_URL;
+
+// ✅ Ensure no trailing slash in BASE_URL
+const BASE_URL = import.meta.env.VITE_API_URL.replace(/\/$/, "");
 
 export const apiRequest = async (path, method = "GET", body = null) => {
   const token = localStorage.getItem("token");
 
   const headers = {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
   };
+
+  // ✅ Only add Authorization header if token exists
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
 
   const options = {
     method,
     headers,
   };
 
-  if (body) options.body = JSON.stringify(body);
-
-  // ✅ Only add trailing slash for non-ID endpoints
-  let finalPath = path;
-  const isNumericId = /\/\d+$/.test(path); // checks if path ends with /number
-
-  if (!path.endsWith("/") && !isNumericId) {
-    finalPath += "/";
+  if (body) {
+    options.body = JSON.stringify(body);
   }
 
-  const res = await fetch(`${BASE_URL}${finalPath}`, options);
-  const data = await res.json();
+  // ✅ Ensure path starts with a single slash
+  const finalPath = path.startsWith("/") ? path : `/${path}`;
+
+  // ✅ Build full, clean URL
+  const fullURL = `${BASE_URL}${finalPath}`;
+
+  const res = await fetch(fullURL, options);
+
+  // ✅ Handle non-JSON errors gracefully
+  let data;
+  try {
+    data = await res.json();
+  } catch (err) {
+    throw new Error(`Unexpected response: ${res.statusText}`);
+  }
 
   if (!res.ok) {
     throw new Error(data.error || "Request failed");
