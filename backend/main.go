@@ -13,7 +13,7 @@ import (
 
 func main() {
 	// Load .env
-	config.LoadEnv()
+	// config.LoadEnv()
 
 	// Connect to DB
 	config.ConnectDB()
