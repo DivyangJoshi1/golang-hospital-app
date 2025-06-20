@@ -1,0 +1,8 @@
+.env
+/vendor/
+*.log
+*.swp
+*.swo
+*.db
+coverage.out
+bin/
