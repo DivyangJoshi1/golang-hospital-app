@@ -1,5 +1,5 @@
 // src/services/api.js
-const API_BASE = "http://localhost:8080/api";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const apiRequest = async (path, method = "GET", body = null) => {
   const token = localStorage.getItem("token");
@@ -24,7 +24,7 @@ export const apiRequest = async (path, method = "GET", body = null) => {
     finalPath += "/";
   }
 
-  const res = await fetch(`${API_BASE}${finalPath}`, options);
+  const res = await fetch(`${BASE_URL}${finalPath}`, options);
   const data = await res.json();
 
   if (!res.ok) {

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import './Register.css';
+import { apiRequest } from "../../services/api";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -28,28 +29,17 @@ const Register = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:8080/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: formData.username,
-          password: formData.password,
-          role: formData.role,
-        }),
+      await apiRequest("/api/register", "POST", {
+        username: formData.username,
+        password: formData.password,
+        role: formData.role,
       });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Registration failed");
-        return;
-      }
 
       alert("✅ Registration successful. Please login.");
       navigate("/");
     } catch (err) {
       console.error(err);
-      setError("Something went wrong");
+      setError(err.message || "Something went wrong");
     }
   };
 
@@ -109,9 +99,8 @@ const Register = () => {
           <button type="submit" className="register-button">Register</button>
 
           <p className="register-link">
-  Already have an account? <Link to="/">Login here</Link>
-</p>
-
+            Already have an account? <Link to="/">Login here</Link>
+          </p>
         </form>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';
+import { apiRequest } from '../../services/api';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -12,28 +12,22 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const response = await fetch('http://localhost:8080/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const data = await apiRequest("/api/login", "POST", { username, password });
 
-    const data = await response.json();
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.role);
 
-    if (!response.ok) {
-      setError(data.error || 'Login failed');
-      return;
-    }
-
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('role', data.role);
-
-    if (data.role === 'receptionist') {
-      navigate('/receptionist');
-    } else if (data.role === 'doctor') {
-      navigate('/doctor');
-    } else {
-      setError('Unknown role');
+      if (data.role === "receptionist") {
+        navigate("/receptionist");
+      } else if (data.role === "doctor") {
+        navigate("/doctor");
+      } else {
+        setError("Unknown role");
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.message || "Login failed");
     }
   };
 
@@ -73,8 +67,8 @@ const Login = () => {
           <button type="submit" className="login-button">Login</button>
 
           <p className="login-register-link">
-  Don't have an account? <Link to="/register">Register here</Link>
-</p>
+            Don't have an account? <Link to="/register">Register here</Link>
+          </p>
         </form>
       </div>
     </div>
