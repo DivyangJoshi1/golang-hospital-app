@@ -12,23 +12,26 @@ import (
 )
 
 func main() {
-	// Load .env
-	// config.LoadEnv()
+	// ✅ Load environment variables (for local dev + Render)
+	config.LoadEnv()
 
-	// Connect to DB
+	// ✅ Connect to PostgreSQL
 	config.ConnectDB()
 
-	// Auto-migrate models
+	// ✅ Auto-migrate models
 	if err := config.DB.AutoMigrate(&models.User{}, &models.Patient{}); err != nil {
 		log.Fatalf("❌ Auto-migration failed: %v", err)
 	}
 
-	// Gin Router
+	// ✅ Initialize Gin
 	r := gin.Default()
 
-	// ✅ Use Gin-contrib CORS middleware properly
+	// ✅ CORS configuration
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173"}, // Vite dev server
+		AllowOrigins: []string{
+			"http://localhost:5173",              // local Vite dev
+			"https://golang-hospital-app.vercel.app", // deployed frontend
+		},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Authorization", "Content-Type"},
 		ExposeHeaders:    []string{"Content-Length"},
@@ -36,20 +39,20 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	// ✅ Routes (must come AFTER cors setup)
+	// ✅ Register routes
 	routes.AuthRoutes(r)
 	routes.PatientRoutes(r)
 
-	// Health check
+	// ✅ Health check
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "✅ DB Connected & Server Running"})
 	})
 
-	// Start server
+	// ✅ Start server
 	port := config.GetEnv("PORT", "8080")
 	log.Println("🚀 Server is running on port", port)
 
 	if err := r.Run(":" + port); err != nil {
-		log.Fatalf("Server failed: %v", err)
+		log.Fatalf("❌ Server failed: %v", err)
 	}
 }
