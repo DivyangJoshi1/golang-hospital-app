@@ -13,7 +13,7 @@ import (
 
 func main() {
 	// ✅ Load environment variables (for local dev + Render)
-	config.LoadEnv()
+	// config.LoadEnv()
 
 	// ✅ Connect to PostgreSQL
 	config.ConnectDB()
