@@ -2,8 +2,10 @@ package controllers
 
 import (
     "net/http"
+
     "github.com/gin-gonic/gin"
     "golang.org/x/crypto/bcrypt"
+
     "github.com/DivyangJoshi1/golang-hospital-app/internal/config"
     "github.com/DivyangJoshi1/golang-hospital-app/internal/models"
     "github.com/DivyangJoshi1/golang-hospital-app/internal/utils"
@@ -21,8 +23,7 @@ func Login(c *gin.Context) {
     }
 
     var user models.User
-    result := config.DB.Where("username = ?", input.Username).First(&user)
-    if result.Error != nil {
+    if err := config.DB.Where("username = ?", input.Username).First(&user).Error; err != nil {
         c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
         return
     }
@@ -40,8 +41,8 @@ func Login(c *gin.Context) {
 
     c.JSON(http.StatusOK, gin.H{
         "message": "Login successful",
-        "token": token,
-        "role": user.Role,
+        "token":   token,
+        "role":    user.Role,
     })
 }
 
@@ -58,7 +59,7 @@ func Register(c *gin.Context) {
     }
 
     var existing models.User
-    if config.DB.Where("username = ?", input.Username).First(&existing).Error == nil {
+    if err := config.DB.Where("username = ?", input.Username).First(&existing).Error; err == nil {
         c.JSON(http.StatusConflict, gin.H{"error": "User already exists"})
         return
     }

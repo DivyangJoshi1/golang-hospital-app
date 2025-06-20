@@ -1,4 +1,3 @@
-/* Global consistency */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -13,7 +12,6 @@ html, body {
   background-color: #f1f5f9;
 }
 
-/* Wrapper */
 .register-container {
   display: flex;
   justify-content: center;
@@ -22,7 +20,6 @@ html, body {
   padding: 1rem;
 }
 
-/* Form box */
 .register-box {
   background: #ffffff;
   padding: 32px;
@@ -32,7 +29,6 @@ html, body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
 }
 
-/* Headings */
 .register-title {
   font-size: 22px;
   font-weight: 600;
@@ -48,7 +44,6 @@ html, body {
   margin-bottom: 20px;
 }
 
-/* Form layout */
 .register-form {
   display: flex;
   flex-direction: column;
@@ -59,14 +54,15 @@ html, body {
 }
 
 label {
+  display: block;
   font-size: 13px;
   font-weight: 500;
   margin-bottom: 6px;
-  display: block;
   color: #374151;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   padding: 10px 12px;
   font-size: 14px;
@@ -76,13 +72,13 @@ input, select {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
   outline: none;
 }
 
-/* Error message */
 .form-error {
   color: #dc2626;
   font-size: 13px;
@@ -90,13 +86,12 @@ input:focus, select:focus {
   text-align: center;
 }
 
-/* Button */
 .register-button {
-  background-color: #2563eb;
-  color: white;
-  font-weight: 600;
   padding: 10px;
   font-size: 15px;
+  font-weight: 600;
+  background-color: #2563eb;
+  color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -107,7 +102,6 @@ input:focus, select:focus {
   background-color: #1e40af;
 }
 
-/* Link */
 .register-link {
   font-size: 13px;
   margin-top: 16px;

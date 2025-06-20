@@ -4,7 +4,6 @@ import Login from "./pages/Login";
 import Receptionist from "./pages/receptionist/Dashboard";
 import Doctor from "./pages/doctor/Dashboard";
 
-// Route guard component
 const ProtectedRoute = ({ role, children }) => {
   const token = localStorage.getItem("token");
   const userRole = localStorage.getItem("role");
@@ -21,7 +20,6 @@ function App() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
-
       <Route
         path="/receptionist"
         element={
@@ -30,7 +28,6 @@ function App() {
           </ProtectedRoute>
         }
       />
-
       <Route
         path="/doctor"
         element={

@@ -17,21 +17,21 @@ const ReceptionistDashboard = () => {
 
   const fetchPatients = async () => {
     try {
-      const data = await apiRequest("/api/patients");  // ✅ fixed
+      const data = await apiRequest("/api/patients");
       setPatients(data);
     } catch (err) {
       console.error("Fetch error:", err);
-      setError("❌ Failed to load patients.");
+      setError("Failed to load patients.");
     }
   };
 
   const handleSearch = async () => {
     if (!searchId.trim()) return;
     try {
-      const res = await apiRequest(`/api/patients/${searchId.trim()}`);  // ✅ fixed
+      const res = await apiRequest(`/api/patients/${searchId.trim()}`);
       setSearchedPatient(res);
     } catch (err) {
-      setSearchedPatient({ error: "❌ No patient found with that ID." });
+      setSearchedPatient({ error: "No patient found with that ID." });
     }
   };
 
@@ -41,11 +41,11 @@ const ReceptionistDashboard = () => {
 
   const handleSaveEdit = async () => {
     try {
-      const res = await apiRequest(`/api/patients/${editingPatient.ID}`, "PUT", editingPatient);  // ✅ fixed
+      const res = await apiRequest(`/api/patients/${editingPatient.ID}`, "PUT", editingPatient);
       setPatients(patients.map(p => (p.ID === res.ID ? res : p)));
       setEditingPatient(null);
     } catch (err) {
-      alert("❌ Failed to update.");
+      alert("Failed to update.");
     }
   };
 
@@ -58,11 +58,11 @@ const ReceptionistDashboard = () => {
     if (!id) return;
 
     try {
-      await apiRequest(`/api/patients/${id}`, "DELETE");  // ✅ fixed
+      await apiRequest(`/api/patients/${id}`, "DELETE");
       setPatients(patients.filter(p => p.ID !== id));
       setDeleteConfirm({ show: false, patient: null });
     } catch (err) {
-      alert("❌ Deletion failed.");
+      alert("Deletion failed.");
     }
   };
 
@@ -80,11 +80,11 @@ const ReceptionistDashboard = () => {
     };
 
     try {
-      const res = await apiRequest("/api/patients", "POST", payload);  // ✅ fixed
+      const res = await apiRequest("/api/patients", "POST", payload);
       setPatients([...patients, res]);
       setNewPatient(null);
     } catch (err) {
-      alert("❌ Registration failed. " + err.message);
+      alert("Registration failed. " + err.message);
     }
   };
 
@@ -95,10 +95,8 @@ const ReceptionistDashboard = () => {
   };
 
   return (
-    // ⬇️ same rendering JSX, no changes here
     <div className="dashboard-container">
-      {/* same as before */}
-      {/* your JSX rendering logic */}
+      {/* JSX rendering logic goes here */}
     </div>
   );
 };

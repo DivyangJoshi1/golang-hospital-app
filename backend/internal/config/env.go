@@ -8,14 +8,16 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// LoadEnv loads .env file in local development; skips silently in production
+// LoadEnv loads environment variables from a .env file in development.
+// It skips loading in production if the file is missing.
 func LoadEnv() {
 	if err := godotenv.Load(); err != nil {
-		log.Println("⚠️  Skipping .env load (likely running in production):", err)
+		log.Println("⚠️  .env file not found or skipped in production:", err)
 	}
 }
 
-// GetEnv gets an environment variable or falls back to a default
+// GetEnv retrieves the value of the environment variable named by the key.
+// If the variable is not present, it returns the fallback value.
 func GetEnv(key, fallback string) string {
 	if value := os.Getenv(key); value != "" {
 		return value

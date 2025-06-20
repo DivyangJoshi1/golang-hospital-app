@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { apiRequest } from "../../services/api";
 import "../doctor/doctorDashboard.css";
 
-// Live count animation hook
 const useCountUp = (target, duration = 1500) => {
   const [count, setCount] = useState(0);
 
@@ -41,7 +40,7 @@ const DoctorDashboard = () => {
         setPatients(data);
       } catch (err) {
         console.error("Fetch error:", err);
-        setError("❌ Failed to load patients.");
+        setError("Failed to load patients.");
       }
     };
     fetchPatients();
@@ -54,11 +53,11 @@ const DoctorDashboard = () => {
       if (res && res.ID) {
         setSearchedPatient(res);
       } else {
-        setSearchedPatient({ error: "❌ No patient found with that ID." });
+        setSearchedPatient({ error: "No patient found with that ID." });
       }
     } catch (err) {
       console.error("Search error:", err.message);
-      setSearchedPatient({ error: "❌ No patient found with that ID." });
+      setSearchedPatient({ error: "No patient found with that ID." });
     }
   };
 
@@ -73,14 +72,12 @@ const DoctorDashboard = () => {
       setEditingPatient(null);
     } catch (err) {
       console.error("Update error:", err);
-      alert("❌ Failed to update patient.");
+      alert("Failed to update patient.");
     }
   };
 
   const handleLogout = () => {
-    // Optionally remove token here
-    // localStorage.removeItem("token");
-    window.location.href = "/"; // Adjust route as needed
+    window.location.href = "/";
   };
 
   const totalPatients = patients.length;
@@ -94,8 +91,8 @@ const DoctorDashboard = () => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <h2>👨‍⚕️ Doctor Dashboard</h2>
-        <button className="logout-button" onClick={handleLogout}>🚪 Logout</button>
+        <h2>Doctor Dashboard</h2>
+        <button className="logout-button" onClick={handleLogout}>Logout</button>
       </div>
 
       {!error && (
@@ -124,7 +121,7 @@ const DoctorDashboard = () => {
               <p className="error">{searchedPatient.error}</p>
             ) : (
               <div className="patient-card">
-                <h3>🧾 Patient Details</h3>
+                <h3>Patient Details</h3>
                 <p><strong>ID:</strong> {searchedPatient.ID}</p>
                 <p><strong>Name:</strong> {searchedPatient.first_name} {searchedPatient.last_name}</p>
                 <p><strong>Gender:</strong> {searchedPatient.gender}</p>
@@ -143,7 +140,7 @@ const DoctorDashboard = () => {
           <div className="modal-content">
             <button className="modal-close" onClick={() => setEditingPatient(null)}>✖</button>
             <div className="patient-card">
-              <h3>📝 Edit Patient</h3>
+              <h3>Edit Patient</h3>
               <p><strong>Patient ID:</strong> {editingPatient.ID}</p>
               <input value={editingPatient.first_name} onChange={(e) => handleEditChange("first_name", e.target.value)} placeholder="First Name" />
               <input value={editingPatient.last_name} onChange={(e) => handleEditChange("last_name", e.target.value)} placeholder="Last Name" />
@@ -159,6 +156,7 @@ const DoctorDashboard = () => {
       )}
 
       {error && <p className="error">{error}</p>}
+
       {patients.length > 0 ? (
         <div className="table-wrapper">
           <table className="patients-table">
@@ -166,13 +164,13 @@ const DoctorDashboard = () => {
               <tr>
                 <th>#</th>
                 <th>Patient ID</th>
-                <th>👤 Name</th>
-                <th>⚧ Gender</th>
-                <th>🎂 Age</th>
-                <th>📞 Mobile</th>
-                <th>✉️ Email</th>
-                <th>🏠 Address</th>
-                <th>✏️ Edit</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>Mobile</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Edit</th>
               </tr>
             </thead>
             <tbody>

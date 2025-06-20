@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import './Register.css';
 import { apiRequest } from "../services/api";
 
@@ -38,7 +37,6 @@ const Register = () => {
       alert("✅ Registration successful. Please login.");
       navigate("/");
     } catch (err) {
-      console.error(err);
       setError(err.message || "Something went wrong");
     }
   };
@@ -88,7 +86,11 @@ const Register = () => {
 
           <div className="form-group">
             <label>Role</label>
-            <select name="role" value={formData.role} onChange={handleChange}>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+            >
               <option value="receptionist">Receptionist</option>
               <option value="doctor">Doctor</option>
             </select>
