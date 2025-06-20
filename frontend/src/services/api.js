@@ -24,15 +24,15 @@ export const apiRequest = async (path, method = "GET", body = null) => {
     options.body = JSON.stringify(body);
   }
 
-  // ✅ Ensure path starts with a single slash
-  const finalPath = path.startsWith("/") ? path : `/${path}`;
+  // ✅ Normalize path: remove leading/trailing slashes to avoid accidental //
+  const cleanPath = path.replace(/^\/+|\/+$/g, "");
 
-  // ✅ Build full, clean URL
-  const fullURL = `${BASE_URL}${finalPath}`;
+  // ✅ Final URL
+  const fullURL = `${BASE_URL}/${cleanPath}`;
 
   const res = await fetch(fullURL, options);
 
-  // ✅ Handle non-JSON errors gracefully
+  // ✅ Graceful fallback for non-JSON error responses
   let data;
   try {
     data = await res.json();
